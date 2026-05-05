@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Content Writer — Generate content in seconds</title>
+  <meta name="description" content="Generate blog posts, LinkedIn posts, product descriptions, emails, and social captions with AI. Free 3 generations, then $14.99 one-time." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== UTILITY ===== */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(226,232,240,0.6);
+      padding: 14px 0;
+    }
+    .navbar .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .navbar .logo {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+    .navbar .logo span { font-weight: 400; color: #64748b; -webkit-text-fill-color: #64748b; }
+    .nav-links { display: flex; align-items: center; gap: 24px; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      color: #475569;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #2563eb; }
+    .nav-cta {
+      padding: 8px 20px;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: #fff !important;
+      border-radius: 8px;
+      font-weight: 600 !important;
+      font-size: 13px !important;
+      transition: transform 0.2s, box-shadow 0.2s !important;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(37,99,235,0.35); }
+
+    /* ===== HERO ===== */
+    .hero {
+      padding: 140px 0 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(37,99,235,0.06) 0%, rgba(124,58,237,0.04) 40%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #4338ca;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .hero h1 .gradient {
+      background: linear-gradient(135deg, #2563eb, #7c3aed, #db2777);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: clamp(16px, 2vw, 20px);
+      color: #64748b;
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+    .btn-primary {
+      padding: 16px 36px;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(37,99,235,0.35); }
+    .btn-secondary {
+      padding: 16px 36px;
+      background: #fff;
+      color: #1e293b;
+      font-size: 16px;
+      font-weight: 600;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.2s, transform 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-secondary:hover { border-color: #2563eb; transform: translateY(-2px); }
+
+    /* ===== TRUST BAR ===== */
+    .trust-bar {
+      padding: 24px 0;
+      text-align: center;
+      border-top: 1px solid #e2e8f0;
+      border-bottom: 1px solid #e2e8f0;
+      background: #fff;
+    }
+    .trust-bar p { font-size: 13px; font-weight: 600; color: #94a3b8; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 16px; }
+    .trust-logos { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+    .trust-logos span { font-size: 14px; color: #64748b; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+
+    /* ===== CONTENT TYPES ===== */
+    .types-section {
+      padding: 100px 0;
+      background: #fff;
+    }
+    .types-section .section-label {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #2563eb;
+      margin-bottom: 12px;
+    }
+    .types-section h2 {
+      text-align: center;
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+    .types-section > .container > p {
+      text-align: center;
+      color: #64748b;
+      max-width: 520px;
+      margin: 0 auto 48px;
+      font-size: 16px;
+    }
+    .types-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+    .type-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 32px 20px;
+      text-align: center;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    }
+    .type-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.06);
+      border-color: #2563eb;
+    }
+    .type-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 24px;
+    }
+    .type-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .type-card p { font-size: 13px; color: #64748b; line-height: 1.5; }
+
+    /* ===== GENERATOR DEMO ===== */
+    .demo-section {
+      padding: 100px 0;
+      background: linear-gradient(180deg, #f8fafc 0%, #fff 100%);
+    }
+    .demo-section .section-label {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #2563eb;
+      margin-bottom: 12px;
+    }
+    .demo-section h2 {
+      text-align: center;
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 48px;
+    }
+    .demo-card {
+      max-width: 720px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 20px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.04);
+      padding: 40px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: inherit;
+      background: #fff;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    }
+    .demo-btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 8px;
+    }
+    .demo-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(37,99,235,0.3); }
+    .demo-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .demo-result {
+      display: none;
+      margin-top: 24px;
+      background: #f8fafc;
+      border: 2px solid #2563eb;
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .demo-result .result-content {
+      white-space: pre-wrap;
+      line-height: 1.8;
+      font-size: 14px;
+      color: #334155;
+      max-height: 350px;
+      overflow-y: auto;
+    }
+    .demo-result .result-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    .demo-result .result-actions button {
+      padding: 10px 20px;
+      background: #1e293b;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .demo-result .result-actions button:hover { background: #0f172a; }
+    .demo-result .result-actions .btn-outline {
+      background: transparent;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+    }
+    .demo-result .result-actions .btn-outline:hover { border-color: #2563eb; color: #2563eb; background: #f0f4ff; }
+    .loading-spinner {
+      display: none;
+      text-align: center;
+      padding: 24px;
+    }
+    .loading-spinner .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid #e2e8f0;
+      border-top-color: #2563eb;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 12px;
+    }
+    .loading-spinner p { color: #64748b; font-size: 14px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error-msg {
+      display: none;
+      padding: 16px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 10px;
+      color: #991b1b;
+      font-size: 14px;
+      margin-top: 16px;
+    }
+    .generations-remaining {
+      text-align: center;
+      font-size: 13px;
+      color: #64748b;
+      margin-top: 16px;
+      padding: 10px;
+      background: #f1f5f9;
+      border-radius: 10px;
+    }
+    .generations-remaining strong { color: #0f172a; }
+
+    /* ===== HOW IT WORKS ===== */
+    .how-section {
+      padding: 100px 0;
+      background: #fff;
+    }
+    .how-section .section-label {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #2563eb;
+      margin-bottom: 12px;
+    }
+    .how-section h2 {
+      text-align: center;
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 48px;
+    }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .step {
+      text-align: center;
+      padding: 24px;
+    }
+    .step-number {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: #fff;
+      font-size: 20px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .step h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .step p { font-size: 14px; color: #64748b; line-height: 1.6; max-width: 280px; margin: 0 auto; }
+
+    /* ===== PRICING ===== */
+    .pricing-section {
+      padding: 100px 0;
+      background: linear-gradient(180deg, #f8fafc 0%, #fff 100%);
+    }
+    .pricing-section .section-label {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #2563eb;
+      margin-bottom: 12px;
+    }
+    .pricing-section h2 {
+      text-align: center;
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+    }
+    .pricing-section > .container > p {
+      text-align: center;
+      color: #64748b;
+      max-width: 480px;
+      margin: 0 auto 48px;
+      font-size: 16px;
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      max-width: 800px;
+      margin: 0 auto;
+      align-items: start;
+    }
+    .pricing-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      padding: 40px 32px;
+      text-align: center;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .pricing-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.06); }
+    .pricing-card.featured {
+      border: 2px solid #2563eb;
+      position: relative;
+      background: linear-gradient(180deg, #fff 0%, #f8faff 100%);
+      transform: scale(1.02);
+    }
+    .pricing-card.featured:hover { transform: scale(1.02) translateY(-4px); box-shadow: 0 16px 48px rgba(37,99,235,0.12); }
+    .pricing-card .popular-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 20px;
+      border-radius: 100px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .pricing-card .plan-name { font-size: 18px; font-weight: 700; color: #1e293b; margin-bottom: 8px; }
+    .pricing-card .plan-desc { font-size: 14px; color: #64748b; margin-bottom: 20px; }
+    .pricing-card .price {
+      font-size: 48px;
+      font-weight: 900;
+      color: #0f172a;
+      letter-spacing: -2px;
+      margin-bottom: 4px;
+    }
+    .pricing-card .price .currency { font-size: 24px; vertical-align: super; }
+    .pricing-card .price-sub { font-size: 14px; color: #64748b; margin-bottom: 24px; }
+    .pricing-card .features-list {
+      list-style: none;
+      text-align: left;
+      margin-bottom: 28px;
+    }
+    .pricing-card .features-list li {
+      padding: 8px 0;
+      font-size: 14px;
+      color: #334155;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .pricing-card .features-list li::before {
+      content: '✓';
+      color: #16a34a;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .pricing-card .features-list li.disabled { color: #94a3b8; }
+    .pricing-card .features-list li.disabled::before { content: '—'; color: #cbd5e1; }
+    .pricing-btn {
+      display: inline-block;
+      width: 100%;
+      padding: 14px;
+      background: #f1f5f9;
+      color: #475569;
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .pricing-btn:hover { background: #e2e8f0; }
+    .pricing-btn.primary-btn {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: #fff;
+    }
+    .pricing-btn.primary-btn:hover {
+      box-shadow: 0 8px 24px rgba(37,99,235,0.3);
+    }
+
+    /* ===== FAQ ===== */
+    .faq-section {
+      padding: 100px 0;
+      background: #fff;
+    }
+    .faq-section .section-label {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #2563eb;
+      margin-bottom: 12px;
+    }
+    .faq-section h2 {
+      text-align: center;
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 48px;
+    }
+    .faq-list {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .faq-item {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 20px 0;
+    }
+    .faq-item:first-child { border-top: 1px solid #e2e8f0; }
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      color: #0f172a;
+      user-select: none;
+    }
+    .faq-question .faq-toggle {
+      font-size: 20px;
+      color: #94a3b8;
+      transition: transform 0.3s;
+      flex-shrink: 0;
+      margin-left: 16px;
+    }
+    .faq-question.open .faq-toggle { transform: rotate(45deg); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+      font-size: 14px;
+      color: #64748b;
+      line-height: 1.7;
+    }
+    .faq-answer.open {
+      max-height: 300px;
+      padding-top: 12px;
+    }
+
+    /* ===== CTA ===== */
+    .cta-section {
+      padding: 100px 0;
+      text-align: center;
+      background: linear-gradient(135deg, #1e3a8a, #4c1d95);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .cta-section h2 {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: #fff;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .cta-section p {
+      font-size: 16px;
+      color: rgba(255,255,255,0.7);
+      max-width: 500px;
+      margin: 0 auto 32px;
+      position: relative;
+    }
+    .cta-section .btn-primary {
+      background: #fff;
+      color: #1e3a8a;
+      position: relative;
+    }
+    .cta-section .btn-primary:hover { box-shadow: 0 12px 32px rgba(0,0,0,0.2); }
+    .cta-section .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.2);
+      color: #fff;
+    }
+    .cta-section .btn-secondary:hover { border-color: rgba(255,255,255,0.5); }
+
+    /* ===== FOOTER ===== */
+    footer {
+      padding: 48px 0 32px;
+      background: #0f172a;
+      color: #94a3b8;
+      font-size: 13px;
+    }
+    footer .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    footer .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    footer .footer-links a { color: #94a3b8; text-decoration: none; transition: color 0.2s; }
+    footer .footer-links a:hover { color: #fff; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .pricing-grid { grid-template-columns: 1fr; max-width: 420px; }
+      .pricing-card.featured { transform: none; }
+      .pricing-card.featured:hover { transform: translateY(-4px); }
+      .steps-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+    }
+    @media (max-width: 768px) {
+      .hero { padding: 120px 0 60px; }
+      .types-grid { grid-template-columns: repeat(2, 1fr); }
+      .nav-links li:not(.nav-cta-li) { display: none; }
+      .form-row { grid-template-columns: 1fr; }
+      .demo-card { padding: 24px; }
+    }
+    @media (max-width: 480px) {
+      .types-grid { grid-template-columns: 1fr; }
+      .hero-buttons { flex-direction: column; align-items: stretch; }
+      .hero-buttons .btn-primary,
+      .hero-buttons .btn-secondary { justify-content: center; }
+      footer .container { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="#" class="logo">Content<span>Wizard</span></a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li class="nav-cta-li"><a href="#try-it" class="nav-cta">Try Free</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-badge">✨ Powered by AI</div>
+      <h1>Content that<br /><span class="gradient">writes itself.</span></h1>
+      <p>Generate blog posts, LinkedIn content, product descriptions, marketing emails, and social captions — all with a single prompt. No more writer's block.</p>
+      <div class="hero-buttons">
+        <a href="#try-it" class="btn-primary">✨ Try It Free</a>
+        <a href="#pricing" class="btn-secondary">See Plans</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRUST BAR ===== -->
+  <div class="trust-bar">
+    <div class="container">
+      <p>Trusted by content creators &amp; marketers</p>
+      <div class="trust-logos">
+        <span>⚡ 5 content types</span>
+        <span>🌍 Multi-language</span>
+        <span>🎨 Multiple tones</span>
+        <span>🔒 Secure &amp; private</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTENT TYPES ===== -->
+  <section class="types-section" id="features">
+    <div class="container">
+      <p class="section-label">Content Types</p>
+      <h2>One tool, endless formats</h2>
+      <p>From long-form blogs to punchy social captions — get professional content in any format.</p>
+      <div class="types-grid">
+        <div class="type-card">
+          <div class="type-icon" style="background:#eef2ff;color:#4338ca;">📝</div>
+          <h3>Blog Posts</h3>
+          <p>SEO-optimized articles with headings and structure, ready to publish</p>
+        </div>
+        <div class="type-card">
+          <div class="type-icon" style="background:#f0fdf4;color:#16a34a;">💼</div>
+          <h3>LinkedIn Posts</h3>
+          <p>Professional, engaging updates with hashtags to grow your network</p>
+        </div>
+        <div class="type-card">
+          <div class="type-icon" style="background:#fef3c7;color:#d97706;">🏷️</div>
+          <h3>Product Descriptions</h3>
+          <p>Compelling copy with features, benefits, and specifications</p>
+        </div>
+        <div class="type-card">
+          <div class="type-icon" style="background:#fce7f3;color:#db2777;">✉️</div>
+          <h3>Marketing Emails</h3>
+          <p>High-converting emails with subject lines, body copy, and CTAs</p>
+        </div>
+        <div class="type-card">
+          <div class="type-icon" style="background:#e0f2fe;color:#0284c7;">📱</div>
+          <h3>Social Captions</h3>
+          <p>Short, punchy captions with emojis designed for engagement</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRY IT (DEMO) ===== -->
+  <section class="demo-section" id="try-it">
+    <div class="container">
+      <p class="section-label">Try It Now</p>
+      <h2>See it in action</h2>
+      <div class="demo-card">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="topic">Topic</label>
+            <input type="text" id="topic" placeholder="e.g., Benefits of brick paving" />
+          </div>
+          <div class="form-group">
+            <label for="type">Content Type</label>
+            <select id="type">
+              <option value="blog">Blog Post</option>
+              <option value="linkedin">LinkedIn Post</option>
+              <option value="product">Product Description</option>
+              <option value="email">Marketing Email</option>
+              <option value="social">Social Caption</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="tone">Tone</label>
+            <select id="tone">
+              <option value="professional">Professional</option>
+              <option value="casual">Casual</option>
+              <option value="persuasive">Persuasive</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="language">Language</label>
+            <select id="language">
+              <option value="English">English</option>
+              <option value="Spanish">Spanish</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="loading-spinner" id="loading">
+          <div class="spinner"></div>
+          <p>Generating your content...</p>
+        </div>
+
+        <button class="demo-btn" id="generateBtn">Generate Content</button>
+
+        <div class="error-msg" id="error"></div>
+
+        <div class="generations-remaining" id="remaining">
+          Free generations remaining: <strong>3</strong>
+        </div>
+
+        <div class="demo-result" id="resultBox">
+          <div class="result-content" id="content"></div>
+          <div class="result-actions">
+            <button onclick="copyContent()">📋 Copy to Clipboard</button>
+            <button class="btn-outline" onclick="clearResult()">Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HOW IT WORKS ===== -->
+  <section class="how-section">
+    <div class="container">
+      <p class="section-label">How It Works</p>
+      <h2>Three simple steps</h2>
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Enter your topic</h3>
+          <p>Tell us what you want to write about — any topic, any industry.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Choose your format</h3>
+          <p>Pick the content type, tone, and language that fits your needs.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Get AI content</h3>
+          <p>Receive high-quality, ready-to-use content in seconds. Copy, paste, publish.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRICING ===== -->
+  <section class="pricing-section" id="pricing">
+    <div class="container">
+      <p class="section-label">Pricing</p>
+      <h2>Start free, upgrade when you're ready</h2>
+      <p>Try 3 generations free. No credit card required.</p>
+      <div class="pricing-grid">
+        <!-- Free Tier -->
+        <div class="pricing-card">
+          <div class="plan-name">Free</div>
+          <div class="plan-desc">Perfect for trying the tool</div>
+          <div class="price"><span class="currency">$</span>0</div>
+          <div class="price-sub">forever, limited</div>
+          <ul class="features-list">
+            <li>3 AI content generations</li>
+            <li>All 5 content types</li>
+            <li>Professional, casual &amp; persuasive tones</li>
+            <li>English &amp; Spanish support</li>
+            <li class="disabled">Unlimited generations</li>
+          </ul>
+          <a href="#try-it" class="pricing-btn">Try Free</a>
+        </div>
+
+        <!-- Pro Tier -->
+        <div class="pricing-card featured">
+          <div class="popular-badge">Most Popular</div>
+          <div class="plan-name">Pro</div>
+          <div class="plan-desc">Unlimited AI content, one-time payment</div>
+          <div class="price"><span class="currency">$</span>14<span style="font-size:24px;">.99</span></div>
+          <div class="price-sub">one-time payment · lifetime access</div>
+          <ul class="features-list">
+            <li>Unlimited AI content generations</li>
+            <li>All 5 content types</li>
+            <li>All tones &amp; languages</li>
+            <li>Priority generation speed</li>
+            <li>Copy, edit, and export</li>
+          </ul>
+          <a href="https://buy.stripe.com/cNi3cwgCfaKl0N98JyeUU04" target="_blank" rel="noopener noreferrer" class="pricing-btn primary-btn">Get Pro — $14.99</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <p class="section-label">FAQ</p>
+      <h2>Frequently asked questions</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            What is AI Content Writer?
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            AI Content Writer is a smart tool that generates high-quality written content using artificial intelligence. Just enter a topic, choose your format, and get ready-to-use content in seconds.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Is it really free?
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            Yes! You get 3 free generations to try the tool and see the quality. No credit card required. After that, unlock unlimited access with a one-time payment of $14.99.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            What content types are supported?
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            Blog posts, LinkedIn posts, product descriptions, marketing emails, and social media captions. Each format is optimized for its platform.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            What languages and tones are available?
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            Currently we support English and Spanish. Tones include Professional, Casual, and Persuasive — so you can match your brand voice perfectly.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            How does the one-time payment work?
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            Pay $14.99 once via our secure Stripe checkout and get unlimited access — no recurring subscriptions, no hidden fees. You own it for life.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Is my data secure?
+            <span class="faq-toggle">+</span>
+          </div>
+          <div class="faq-answer">
+            Absolutely. We use Stripe for secure payment processing. Your content and personal information are never shared with third parties.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Ready to write better, faster?</h2>
+      <p>Join creators who save hours every week with AI-powered content generation. Start free, upgrade when you need more.</p>
+      <div class="hero-buttons">
+        <a href="#try-it" class="btn-primary">✨ Try It Free</a>
+        <a href="https://buy.stripe.com/cNi3cwgCfaKl0N98JyeUU04" target="_blank" rel="noopener noreferrer" class="btn-secondary">Go Pro — $14.99</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="container">
+      <span>© 2026 AI Content Writer. All rights reserved.</span>
+      <div class="footer-links">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="#try-it">Try Free</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    // ---- Demo Generator ----
+    let generationCount = 0;
+    const maxFree = 3;
+
+    // Sample outputs for each content type (static demo)
+    const samples = {
+      blog: `# The Complete Guide to [Topic]
+
+## Introduction
+In today's fast-paced digital landscape, understanding [Topic] has never been more important. Whether you're a seasoned professional or just getting started, mastering this subject can give you a significant edge.
+
+## Why It Matters
+[Topic] affects everything from daily operations to long-term strategy. Companies that embrace it see measurable improvements in efficiency, customer satisfaction, and bottom-line results.
+
+## Key Benefits
+- **Increased Efficiency**: Streamline your workflows and reduce manual effort
+- **Better Decision-Making**: Data-driven insights lead to smarter choices
+- **Competitive Advantage**: Stay ahead of industry trends and outperform peers
+
+## Getting Started
+Start by identifying your specific goals. What do you want to achieve with [Topic]? Then, implement a phased approach — test, learn, and iterate.
+
+## Conclusion
+[Topic] isn't just a trend — it's a fundamental shift in how we work. Start exploring today and unlock new opportunities for growth.`,
+
+      linkedin: `I've been thinking a lot about [Topic] lately — and it's changing the game. 🚀
+
+Here are 3 key insights I've gained:
+
+1️⃣ **Start small, think big**
+   The best implementations begin with a pilot. Test the waters before diving in.
+
+2️⃣ **Focus on outcomes, not features**
+   It's easy to get lost in the technical details. Always ask: "What problem does this solve?"
+
+3️⃣ **Build a learning culture**
+   The teams that succeed are the ones that embrace experimentation and learn from failures.
+
+💡 My advice: Don't wait for perfection. Start now and iterate.
+
+What's been your experience with [Topic]? I'd love to hear your thoughts in the comments! 👇
+
+#Innovation #GrowthMindset #Leadership #Productivity`,
+
+      product: `# [Product Name]
+
+## Overview
+[Product Name] is a powerful solution designed to help you achieve more with less effort. Combining cutting-edge technology with intuitive design, it's the tool you've been waiting for.
+
+## Key Features
+- **Feature One**: Description of the first feature and its benefit
+- **Feature Two**: Description of the second feature and its benefit
+- **Feature Three**: Description of the third feature and its benefit
+- **Feature Four**: Description of the fourth feature and its benefit
+
+## Benefits
+- Save time with automated workflows
+- Reduce costs with smarter resource allocation
+- Improve quality with consistent, repeatable processes
+- Scale effortlessly as your needs grow
+
+## Technical Specifications
+- Platform: Web-based (works on all modern browsers)
+- Integration: REST API, webhooks
+- Security: End-to-end encryption, SOC 2 compliant
+- Support: 24/7 email and chat
+
+## Why Choose [Product Name]?
+Thousands of businesses trust [Product Name] to deliver results. Join them today.`,
+
+      email: `**Subject:** Unlock your potential with [Topic]
+
+**Hi [Name],**
+
+I hope this email finds you well!
+
+I wanted to share something exciting that I think you'll love. We've been working hard on [Topic], and the results have been incredible.
+
+**Here's what you can expect:**
+✅ Save hours of manual work each week
+✅ Get better results with less effort
+✅ Stay ahead of the competition
+
+And the best part? You can get started today — no strings attached.
+
+[👉 **Get Started Now**]
+
+If you have any questions, just hit reply. I'm here to help!
+
+Best,
+[Your Name]
+[Company Name]`,
+
+      social: `🔥 Hot take: [Topic] is underrated.
+
+Most people overlook it, but here's the truth:
+
+✅ It saves you time
+✅ It improves your results
+✅ It's easier than you think
+
+Stop overcomplicating things. Start with one small change today.
+
+👇 Drop a 🌟 if you agree!
+
+#ContentMarketing #Growth #Productivity #Tips`
+    };
+
+    document.getElementById('generateBtn').addEventListener('click', function() {
+      const topic = document.getElementById('topic').value.trim();
+      if (!topic) {
+        showError('Please enter a topic first');
+        return;
+      }
+
+      if (generationCount >= maxFree) {
+        showError('Free limit reached! <a href="#pricing" style="color:#2563eb;font-weight:600;">Upgrade to Pro</a> for unlimited access.');
+        document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+
+      const btn = this;
+      btn.disabled = true;
+      btn.textContent = 'Generating...';
+      document.getElementById('loading').style.display = 'block';
+      hideError();
+      document.getElementById('resultBox').style.display = 'none';
+
+      const type = document.getElementById('type').value;
+
+      setTimeout(() => {
+        generationCount++;
+        const rawSample = samples[type] || samples.blog;
+        const content = rawSample.replace(/\[Topic\]/g, topic).replace(/\[Product Name\]/g, topic);
+
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('content').textContent = content;
+        document.getElementById('resultBox').style.display = 'block';
+        document.getElementById('remaining').innerHTML = 'Free generations remaining: <strong>' + (maxFree - generationCount) + '</strong>';
+
+        btn.disabled = false;
+        btn.textContent = 'Generate Content';
+
+        if (generationCount >= maxFree) {
+          setTimeout(() => {
+            document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' });
+          }, 800);
+        }
+      }, 1200);
+    });
+
+    function copyContent() {
+      const text = document.getElementById('content').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.querySelector('.demo-result .result-actions button');
+        const original = btn.textContent;
+        btn.textContent = '✅ Copied!';
+        setTimeout(() => { btn.textContent = original; }, 2000);
+      }).catch(() => {
+        // Fallback
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+      });
+    }
+
+    function clearResult() {
+      document.getElementById('resultBox').style.display = 'none';
+      document.getElementById('content').textContent = '';
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('error');
+      el.innerHTML = msg;
+      el.style.display = 'block';
+    }
+
+    function hideError() {
+      document.getElementById('error').style.display = 'none';
+    }
+
+    // ---- FAQ Toggle ----
+    function toggleFaq(el) {
+      el.classList.toggle('open');
+      const answer = el.nextElementSibling;
+      answer.classList.toggle('open');
+      const toggle = el.querySelector('.faq-toggle');
+      toggle.textContent = answer.classList.contains('open') ? '−' : '+';
+    }
+  </script>
+
+</body>
+</html>
